@@ -18,7 +18,7 @@ def register():
     '''
     View root page function that returns the index page and its data
     '''
-    return render_template('register.html' ,form = form ,title=Register)
+    return render_template('register.html' ,form = form)
 
 
 @app.route('/login')
@@ -27,4 +27,4 @@ def login():
     '''
     View root page function that returns the index page and its data
     '''
-    return render_template('login.html' ,form = form ,title=Login)
+    return render_template('login.html' ,form = form )
