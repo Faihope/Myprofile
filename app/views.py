@@ -5,13 +5,19 @@ from .forms import RegistrationForm,LoginForm
 
 # Views
 @app.route('/')
-def index():
+@app.route("/home")
+def home():
 
     '''
     View root page function that returns the index page and its data
     '''
     title = 'Home - This is my profile'
     return render_template('index.html' ,title=title)
+
+@app.route("/about")
+def about():
+    return render_template('about.html', title='About')
+
 
 @app.route('/register',methods=['GET','POST'])
 def register():
