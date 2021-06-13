@@ -1,7 +1,7 @@
-from flask import render_template,flash,redirect
-from flask.helpers import url_for
+from flask import render_template,flash,redirect,url_for
 from . import main
 from .forms import RegistrationForm,LoginForm
+from flask_login import login_required
 
 # Views
 @main.route('/')
@@ -15,6 +15,7 @@ def home():
     return render_template('index.html' ,title=title)
 
 @main.route("/about")
+@login_required
 def about():
     return render_template('about.html', title='About')
 
