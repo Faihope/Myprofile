@@ -1,5 +1,6 @@
-from flask import render_template,flash,redirect,url_for
+from flask import render_template,flash,redirect,url_for,abort
 from . import main
+from ..models import Post, User
 from .forms import RegistrationForm,LoginForm
 from flask_login import login_required
 
@@ -42,3 +43,12 @@ def login():
     '''
     title = 'Home - Login'
     return render_template('login.html' ,title=title,form = form )
+
+@main.route('/user/<uname>')
+def profile(uname):
+    user = User.query.filter_by(username = uname).first()
+
+    if user is None:
+        abort(404)
+
+    return render_template("profile/profile.html", user = user)
