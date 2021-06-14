@@ -6,8 +6,7 @@ class Config:
     pass
 
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    # SECRET_KEY = 'qwerty'
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:access@localhost/watchlist'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:access@localhost/myprofile'
 
 class ProdConfig(Config):
     '''
