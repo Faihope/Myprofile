@@ -12,7 +12,7 @@ from .. import db,photos
 def home():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.posted_date.desc()).all()
-    return render_template('index.html', item=posts)
+    return render_template('index.html', item=posts,page=page)
 
 
 @main.route("/about")
@@ -156,10 +156,12 @@ def new_comment(post_id):
         comment = Comment(comment=form.comment.data, author=current_user, post_id = post_id )
         db.session.add(comment)
         db.session.commit()
-        # comments = Comment.query.all()
+       
         flash('You comment has been created!', 'success')
-        return redirect(url_for('main.user_posts', post_id=post.id))
-    return render_template('new-comment.html', title='New Comment', form=form, legend='New Comment')
+        return redirect(url_for('main.post', post_id=post.id))
+    else:
+        comments = Comment.query.all()
+    return render_template('new-comment.html', title='New Comment',comments=comments, form=form, legend='New Comment')
 
 @main.route("/user/<string:username>")
 def user_posts(username):

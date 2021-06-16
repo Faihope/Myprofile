@@ -9,6 +9,7 @@
 
     <div class="row">
       <div class="col-md-6">
+        <hr>
        
         {% for post in item %}
 
@@ -27,11 +28,12 @@
             </div>
             <h2><a class="article-title" href="{{ url_for('.post', post_id=post.id) }}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content | truncate(100) }}</p>
-            <small><a class="article-readmore" href="{{ url_for('.new_post', post_id=post.id) }}">read more...</a></small>
+            <!-- <small><a class="article-readmore" href="{{ url_for('.new_post', post_id=post.id) }}">read more...</a></small> -->
           </div>
           <p class="article-footer"><a class="ratings" href="{{ url_for('.new_comment', post_id=post.id) }}"> Leave a
               comment</a></p>
         </article>
+        <hr>
         {% endfor %}
       </div>
 
