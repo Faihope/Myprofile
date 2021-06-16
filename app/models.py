@@ -14,7 +14,10 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
-    post = db.relationship('Post',backref = 'user',lazy = "dynamic")
+    posts = db.relationship('Post', backref='author', lazy=True)
+    comments = db.relationship('Comment', backref='author', lazy=True)
+    
+    
 
     @property
     def password(self):
@@ -36,12 +39,13 @@ class User(UserMixin,db.Model):
         return f"User('{self.username}')"
 
 class Post(db.Model):
-    __tablename__ = 'posts'
+    __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     posted_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
-    # users = db.relationship('User',backref = 'posts',lazy="dynamic")
+    category = db.Column(db.Text, nullable=False)
+    # users = db.relationship('User',backref = 'user',lazy="dynamic")
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
     def save_post(self):
@@ -77,3 +81,5 @@ class Comment(db.Model):
     
     def __repr__(self):
         return f"Comment('{self.comment}', '{self.posted_date}')"
+    
+

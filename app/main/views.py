@@ -1,6 +1,6 @@
 from flask import render_template,flash,redirect,url_for,abort,request
 from . import main
-from ..models import Post, User
+from ..models import Post, User,Comment
 from .forms import RegistrationForm,LoginForm,UpdateProfile,PostForm,CommentForm
 
 from flask_login import login_required,current_user
@@ -9,11 +9,10 @@ from .. import db,photos
 # Views
 
 @main.route("/")
-@main.route("/home")
 def home():
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.order_by(Post.posted_date.desc()).paginate(page=page, per_page=10)
-    return render_template('index.html', posts=posts)
+    posts = Post.query.order_by(Post.posted_date.desc()).all()
+    return render_template('index.html', item=posts)
 
 
 @main.route("/about")
@@ -95,15 +94,17 @@ def new_post():
         db.session.add(post)
         db.session.commit()
         flash('You pitch has been created!', 'success')
-        return redirect(url_for('main.home'))
-    return render_template('new-post.html', title='New Pitch', form=form, legend='New Pitch')
+        return redirect(url_for('.new_post'))
+    else:
+        post=Post.query.order_by(Post.posted_date ).all()
+    return render_template('new_post.html', title='New Pitch', form=form, legend='New Pitch',post=post)
 
 
 @main.route("/post/<int:post_id>")
 def post(post_id):
-    post = Post.query.get_or_404(post_id)
+    posts = Post.query.get_or_404(post_id)
     comments = Comment.query.filter_by(post_id = post_id).all()
-    return render_template('post.html', title=post.title, post=post, comments = comments)
+    return render_template('post.html', posts=posts, comments = comments)
 
 
 @main.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
@@ -118,11 +119,11 @@ def update_post(post_id):
         post.content = form.content.data
         db.session.commit()
         flash('Your pitch has been updated!', 'success')
-        return redirect(url_for('main.post', post_id=post.id))
+        return redirect(url_for('.new_post', post_id=post.id))
     elif request.method == 'GET':
         form.title.data = post.title
         form.content.data = post.content
-    return render_template('new-post.html', title='Update Post', form=form, legend='Update Post')
+    return render_template('new_post.html', title='Update Post', form=form, legend='Update Post')
 
 
 @main.route("/post/<int:post_id>/delete", methods=['POST'])
@@ -140,7 +141,7 @@ def delete_post(post_id):
 @main.route("/post/<string:category>")
 def category_post(category):
     
-    # post = Post.query.filter_by(category=category).all()
+    post = Post.query.filter_by(category=category).all()
     print("..............", post)
     return render_template('category.html',  category=category) 
 
@@ -157,5 +158,12 @@ def new_comment(post_id):
         db.session.commit()
         # comments = Comment.query.all()
         flash('You comment has been created!', 'success')
-        return redirect(url_for('main.post', post_id=post.id))
+        return redirect(url_for('main.user_posts', post_id=post.id))
     return render_template('new-comment.html', title='New Comment', form=form, legend='New Comment')
+
+@main.route("/user/<string:username>")
+def user_posts(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = Post.query.filter_by(author=user).order_by(Post.posted_date.desc()).paginate(page=page, per_page=10)
+    return render_template('userpost.html', posts=posts, user=user)
