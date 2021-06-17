@@ -94,12 +94,12 @@ def new_post():
         db.session.add(post)
         db.session.commit()
         flash('You pitch has been created!', 'success')
-        return redirect(url_for('.new_post'))
+        return redirect(url_for('.home'))
     else:
         post=Post.query.order_by(Post.posted_date ).all()
     return render_template('new_post.html', title='New Pitch', form=form, legend='New Pitch',post=post)
 
-
+          
 @main.route("/posts/<int:post_id>")
 def posts(post_id):
     posts = Post.query.get_or_404(post_id)
@@ -169,3 +169,15 @@ def user_posts(username):
     user = User.query.filter_by(username=username).first_or_404()
     posts = Post.query.filter_by(author=user).order_by(Post.posted_date.desc()).paginate(page=page, per_page=10)
     return render_template('userpost.html', posts=posts, user=user)
+
+@main.route('/like/<int:post_id>/<action>')
+@login_required
+def like_action(post_id, action):
+    post = Post.query.filter_by(id=post_id).first_or_404()
+    if action == 'like':
+        current_user.like_post(post)
+        db.session.commit()
+    if action == 'unlike':
+        current_user.unlike_post(post)
+        db.session.commit()
+    return redirect(request.referrer)

@@ -1,4 +1,4 @@
-{% extends "index.html" %}
+<!-- {% extends "index.html" %}
 
 {% block content%} 
     <h2 class="mb-4 mt-2 pt-2"> Pitches in {{category}} </h2>
@@ -9,7 +9,7 @@
       <img class="rounded-circle article-img" src="https://source.unsplash.com/125x125/?profile,photo" alt="profile photo">
             <div class="media-body">
               <div class="article-metadata">
-                <a class="mr-2" href="{{ url_for('post.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+                <a class="mr-2" href="{{ url_for('.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
                 <small class="text-muted mr-2">{{ post.posted_date.strftime('%Y-%m-%d') }}</small>
                 <small class="mr-2">Posted in: <a class="mr-2" href="{{ url_for('.category_post', category=post.category) }}">{{ post.category }}</a></small>
 
@@ -22,4 +22,4 @@
     {% endfor %}
     
 
-{% endblock content %}
+{% endblock content %} -->

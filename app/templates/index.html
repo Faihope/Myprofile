@@ -32,7 +32,23 @@
           </div>
           <p class="article-footer"><a class="ratings" href="{{ url_for('.new_comment', post_id=post.id) }}"> Leave a
               comment</a></p>
+              <br>
+
         </article>
+        {% if current_user.has_liked_post(post) %}
+        <button type="submit" class="btn btn-success">
+          <a href="{{ url_for('.like_action', post_id=post.id, action='unlike') }}">Unlike</a>
+        </button>
+
+        {% else %}
+        <button type="submit" class="btn btn-secondary">
+          <a href="{{ url_for('.like_action', post_id=post.id, action='like') }}">Like</a>
+
+        </button>
+        {% endif %}
+       
+  
+    
         <hr>
         {% endfor %}
       </div>
