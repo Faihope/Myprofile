@@ -2,7 +2,6 @@
   {% block navbar%}
   {{super()}}
   {% endblock %}
-  <!-- <main role="main" class="container mt-5 pt-2"> -->
 {% block content %}
   <div class="container">
     <h2 class=" font-bold">Latest Pitches</h2>
@@ -28,7 +27,6 @@
             </div>
             <h2><a class="article-title" href="{{ url_for('.new_post', post_id=post.id) }}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content | truncate(100) }}</p>
-            <!-- <small><a class="article-readmore" href="{{ url_for('.new_post', post_id=post.id) }}">read more...</a></small> -->
           </div>
           <p class="article-footer"><a class="ratings" href="{{ url_for('.new_comment', post_id=post.id) }}"> Leave a
               comment</a></p>
@@ -70,7 +68,6 @@
 
 
       <div class="col-md-3">
-        <!-- <div class="col-md-12 mt-5 pt-5"> -->
         <div class="content-section">
           <h3>Pitch Categories</h3>
           <p class='text-muted'>Filter based on Categories.

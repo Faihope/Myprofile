@@ -100,11 +100,10 @@ def new_post():
     return render_template('new_post.html', title='New Pitch', form=form, legend='New Pitch',post=post)
 
           
-@main.route("/posts/<int:post_id>")
-def posts(post_id):
-    posts = Post.query.get_or_404(post_id)
-    comments = Comment.query.filter_by(post_id = post_id).all()
-    return render_template('post.html', posts=posts, comments = comments)
+@main.route("/post")
+def posts():
+    comments=Comment.query.order_by(Comment.comment).all()
+    return render_template('post.html', comments = comments)
 
 
 @main.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
@@ -153,15 +152,16 @@ def new_comment(post_id):
     
     form = CommentForm()
     if form.validate_on_submit():
-        comment = Comment(comment=form.comment.data, author=current_user, post_id = post_id )
-        db.session.add(comment)
+        new_comment = Comment(comment=form.comment.data, author=current_user, post_id = post_id )
+        new_comment.save_comment()
+        db.session.add(new_comment)
         db.session.commit()
        
         flash('You comment has been created!', 'success')
-        return redirect(url_for('main.posts',post=post, post_id=post.id))
+        return redirect(url_for('main.posts', post_id=post.id))
     else:
-        comments = Comment.query.all()
-    return render_template('post.html', title='New Comment',comments=comments,form=form, legend='New Comment')
+        comments=Comment.query.order_by(Comment.comment).all()
+    return render_template('new-comment.html', title='New Comment',post=post,comments=comments,form=form, legend='New Comment')
 
 @main.route("/user/<string:username>")
 def user_posts(username):
