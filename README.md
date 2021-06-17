@@ -64,4 +64,3 @@ Open the application on your browser `127.0.0.1:5000`.
 
 ## License
 * *MIT License:*
-* Copyright (c) 2019 **Owiti Charles**
