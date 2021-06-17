@@ -1,4 +1,4 @@
-#!/home/moringa/Documents/Python/Flask/Profile/virtual/bin/python3.8
+#!/home/moringa/Myprofile/virtual/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
