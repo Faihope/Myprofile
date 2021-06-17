@@ -100,8 +100,8 @@ def new_post():
     return render_template('new_post.html', title='New Pitch', form=form, legend='New Pitch',post=post)
 
 
-@main.route("/post/<int:post_id>")
-def post(post_id):
+@main.route("/posts/<int:post_id>")
+def posts(post_id):
     posts = Post.query.get_or_404(post_id)
     comments = Comment.query.filter_by(post_id = post_id).all()
     return render_template('post.html', posts=posts, comments = comments)
@@ -158,10 +158,10 @@ def new_comment(post_id):
         db.session.commit()
        
         flash('You comment has been created!', 'success')
-        return redirect(url_for('main.post', post_id=post.id))
+        return redirect(url_for('main.posts',post=post, post_id=post.id))
     else:
         comments = Comment.query.all()
-    return render_template('new-comment.html', title='New Comment',comments=comments, form=form, legend='New Comment')
+    return render_template('post.html', title='New Comment',comments=comments,form=form, legend='New Comment')
 
 @main.route("/user/<string:username>")
 def user_posts(username):
