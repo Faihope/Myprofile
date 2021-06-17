@@ -1,6 +1,6 @@
 from flask import render_template,flash,redirect,url_for,abort,request
 from . import main
-from ..models import Post, User,Comment
+from ..models import Post, User,Comment,PostLike
 from .forms import RegistrationForm,LoginForm,UpdateProfile,PostForm,CommentForm
 
 from flask_login import login_required,current_user
@@ -143,7 +143,7 @@ def category_post(category):
     
     post = Post.query.filter_by(category=category).all()
     print("..............", post)
-    return render_template('category.html',  category=category) 
+    return render_template('category.html', post=post, category=category) 
 
 
 @main.route("/post/<int:post_id>/comment", methods=['GET', 'POST'])

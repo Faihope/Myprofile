@@ -99,7 +99,7 @@ class Comment(db.Model):
     
     def __repr__(self):
         return f"Comment('{self.comment}', '{self.posted_date}')"
-class PostLike(db.Model):
+class PostLike(db.Model,UserMixin):
     __tablename__ = 'post_like'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
