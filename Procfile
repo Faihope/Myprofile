@@ -1,1 +1,1 @@
-heroku create Myprofile
+web: gunicorn manage:app

@@ -24,6 +24,7 @@ class ProdConfig(Config):
         Config: The parent configuration class with General configuration settings
     '''
     pass
+
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
             
